@@ -4,7 +4,6 @@ const ctx = canvas.getContext('2d');
 let width, height;
 let circuits = [];
 
-// Resize canvas to fill window
 function resize() {
     width = window.innerWidth;
     height = window.innerHeight;
@@ -19,10 +18,10 @@ class Circuit {
     constructor() {
         this.x = Math.random() * width;
         this.y = Math.random() * height;
-        this.length = Math.random() * 200 + 50; // Total length of the path
-        this.segments = []; // Array of {x, y} points
+        this.length = Math.random() * 200 + 50;
+        this.segments = [];
         this.speed = Math.random() * 2 + 0.5;
-        this.progress = 0; // Current position of the 'electron'
+        this.progress = 0;
         this.color = '#00f3ff';
         this.width = Math.random() * 1.5 + 0.5;
         this.generatePath();
@@ -37,7 +36,6 @@ class Circuit {
         let remainingLength = this.length;
 
         while (remainingLength > 0) {
-            // Randomly choose a direction: Horizontal or Vertical
             const dir = Math.random() > 0.5 ? 'H' : 'V';
             const segLen = Math.min(remainingLength, Math.random() * 50 + 20);
 
@@ -55,10 +53,8 @@ class Circuit {
     update() {
         this.progress += this.speed;
 
-        // Reset if it finished the path
         if (this.progress >= this.length) {
             this.progress = 0;
-            // Optionally respawn at a new location for variety
             if (Math.random() < 0.1) {
                 this.x = Math.random() * width;
                 this.y = Math.random() * height;
@@ -69,7 +65,6 @@ class Circuit {
     }
 
     draw() {
-        // Draw the static path slightly visible
         ctx.beginPath();
         ctx.strokeStyle = `rgba(0, 243, 255, 0.05)`;
         ctx.lineWidth = this.width;
@@ -80,7 +75,6 @@ class Circuit {
         }
         ctx.stroke();
 
-        // Draw the moving electron
         let traveled = 0;
         let p = this.progress;
 
@@ -88,26 +82,20 @@ class Circuit {
             let start = this.segments[i];
             let end = this.segments[i + 1];
 
-            // Calculate distance of this segment
             let dx = end.x - start.x;
             let dy = end.y - start.y;
             let dist = Math.sqrt(dx * dx + dy * dy);
 
             if (p <= traveled + dist) {
-                // Electron is on this segment
                 let ratio = (p - traveled) / dist;
                 let ex = start.x + dx * ratio;
                 let ey = start.y + dy * ratio;
 
-                // Draw glowing head
                 ctx.beginPath();
                 ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha + 0.5})`;
                 ctx.arc(ex, ey, 2, 0, Math.PI * 2);
                 ctx.fill();
 
-                // Draw trail
-                // Simple trail: just draw from start of this segment to current point
-                // For better trail, we would need to look back at previous segments
                 ctx.shadowBlur = 10;
                 ctx.shadowColor = this.color;
 
@@ -121,7 +109,7 @@ class Circuit {
 
 function initCircuits() {
     circuits = [];
-    const count = Math.floor((width * height) / 20000); // Density based on screen area
+    const count = Math.floor((width * height) / 20000);
     for (let i = 0; i < count; i++) {
         circuits.push(new Circuit());
     }
@@ -130,7 +118,6 @@ function initCircuits() {
 function animate() {
     ctx.clearRect(0, 0, width, height);
 
-    // Draw background overlay if needed (style.css handles the main gradient)
 
     circuits.forEach(circuit => {
         circuit.update();
@@ -143,12 +130,11 @@ function animate() {
 resize();
 animate();
 
-// Smooth scrolling for navigation
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
         const targetId = this.getAttribute('href');
-        if (targetId === '#') return; // Ignore empty links
+        if (targetId === '#') return;
 
         document.querySelector(targetId).scrollIntoView({
             behavior: 'smooth'
@@ -156,7 +142,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Intersection Observer for Futuristic Transitions
 const observerOptions = {
     threshold: 0.2,
     rootMargin: "0px"
@@ -174,21 +159,18 @@ const observer = new IntersectionObserver((entries) => {
 const hiddenElements = document.querySelectorAll('.hidden');
 hiddenElements.forEach((el) => observer.observe(el));
 
-// Active Navigation Link Tracker
 const sections = document.querySelectorAll('section');
 const navLinks = document.querySelectorAll('.nav-links a');
 
 const navObserverOptions = {
-    threshold: 0.5 // Trigger when 50% of the section is visible
+    threshold: 0.5
 };
 
 const navObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
-            // Remove active class from all links
             navLinks.forEach(link => link.classList.remove('active'));
 
-            // Add active class to corresponding link
             const id = entry.target.getAttribute('id');
             const activeLink = document.querySelector(`.nav-links a[href="#${id}"]`);
             if (activeLink) {
@@ -201,3 +183,4 @@ const navObserver = new IntersectionObserver((entries) => {
 sections.forEach(section => {
     navObserver.observe(section);
 });
+
