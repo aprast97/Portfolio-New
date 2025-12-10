@@ -128,13 +128,11 @@ section {
     transition: all 1s ease-out;
 }
 
-/* Intersection Observer Transitions */
 section.visible {
     opacity: 1;
     transform: translateY(0);
 }
 
-/* Specific transition delays/styles can be added here */
 .hidden {
     opacity: 0;
     filter: blur(5px);
@@ -225,7 +223,6 @@ section.visible {
     color: var(--accent-color);
 }
 
-/* Social Buttons */
 .social-links {
     display: flex;
     justify-content: center;
@@ -367,7 +364,6 @@ section.visible {
     transform: translateY(-2px);
 }
 
-/* Certificate Section Redesign */
 .certificate-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -442,7 +438,6 @@ section.visible {
     box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
 }
 
-/* Contact Section Redesign */
 .connect-title {
     text-transform: capitalize;
     font-size: 2rem;
@@ -519,7 +514,6 @@ section.visible {
     width: 35px;
     height: 35px;
     object-fit: contain;
-    /* Cyan Filter */
     filter: invert(89%) sepia(80%) saturate(2227%) hue-rotate(124deg) brightness(105%) contrast(103%) drop-shadow(0 0 5px var(--accent-color));
     transition: 0.3s;
 }
@@ -583,4 +577,5 @@ footer {
     .nav-links {
         display: none;
     }
+
 }
