@@ -483,20 +483,24 @@ section.visible {
 }
 
 .connect-title {
+    position: relative;
     text-align: center;
     font-size: 2rem;
     color: var(--heading-color);
     text-transform: capitalize;
-    margin-bottom: 10px;
+    padding-bottom: 20px;
 }
 
 .connect-title::after {
     content: '';
-    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+
     width: 50px;
     height: 3px;
     background: var(--accent-color);
-    margin: 15px auto 0;
     box-shadow: 0 0 10px var(--accent-glow);
 }
 
